@@ -1,7 +1,7 @@
 import React from 'react';
 import Color from 'color';
 import { makeStyles } from '@material-ui/core/styles';
-import {Card, CardActionArea, CardActions, CardContent, CardMedia } from '@material-ui/core';
+import {Card, CardActionArea, CardActions, CardContent, CardMedia, Chip } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import { useHistory } from 'react-router';
 
@@ -36,13 +36,13 @@ const useStyles = makeStyles({
   text: {
     // fontFamily: 'PokemonGb',
     textAlign: 'center',
-    letterSpacing: "0.2em",
+    letterSpacing: "0.1em",
     // color: 'rgb(3, 172, 14)',
     color: '#d8f3dc'
   }
 });
 
-export default function CardSeries (props) {
+export default function PokemonCard (props) {
   const history = useHistory()
   let datum = props.datum
   const classes = useStyles()
@@ -59,7 +59,7 @@ export default function CardSeries (props) {
   //   }
   //   setOpen(false);
   // };
-
+  const pokemonId = datum
   function goToDetail() {
     history.push(`/detail/${datum.name}`)
   }
@@ -76,8 +76,11 @@ export default function CardSeries (props) {
       />
       <CardContent>
         {/* <CardActions> */}
-
+        {/* <Chip size="small" label={datum.id} /> */}
         <Typography className={classes.text}>
+          <span>
+          #{datum.id} 
+          </span>&nbsp;
           {datum.name.toUpperCase()}
         </Typography>
       </CardContent>

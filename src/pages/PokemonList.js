@@ -62,7 +62,7 @@ export default function PokemonList () {
         {
           data.pokemons.results.map(datum => (
             <Grid item xs={12} sm={4} md={3} lg={2} xl={2} spacing={0}>
-              <PokemonCard key={datum._id} datum={datum} />
+              <PokemonCard key={datum.id} datum={datum} />
             </Grid>
             ))
         }

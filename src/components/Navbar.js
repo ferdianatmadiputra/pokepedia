@@ -93,7 +93,7 @@ export default function HideAppBar(props) {
                 alt='pokeball'
                 width="30"/>
                 <span className={classes.font}>
-                &nbsp;POKEPED
+                &nbsp;POKEPEDIA
                 </span>
               </NavLink>
           </Typography>
@@ -104,7 +104,7 @@ export default function HideAppBar(props) {
               activeStyle={{color: '#95d5b2'}}
             >
               <span className={classes.font}>
-                Yours
+                Your<br />Pokemon
                 {/* &nbsp; */}
               </span>
               {/* <SportsBaseballIcon fontSize='small' /> */}

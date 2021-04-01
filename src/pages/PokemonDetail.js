@@ -6,15 +6,42 @@ import { GET_DETAIL } from '../graph/index'
 import Preload from '../components/Preload'
 import ModalFailedGet from '../components/ModalFailedGet'
 import ModalGetPokemon from '../components/ModalGetPokemon'
+import Chip from '@material-ui/core/Chip'
 import { Grid, Typography, Button, Container} from '@material-ui/core'
 import {Card, CardActionArea, CardActions, CardContent, CardMedia } from '@material-ui/core';
 
 const useStyles = makeStyles({
   media: {
-    height: 200,
-    width: 200,
+    minHeight: 300,
+    minWidth: 278,
+    maxWidth: 360,
+    margin: 'auto'
     // padding: 'auto'
   },
+  container: {
+    backgroundImage: 'linear-gradient(#95d5b2, #2d6a4f)',
+    display: 'flex',
+    padding: 10,
+    color: "#000000"
+  },
+  details: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  pokemonName: {
+    paddingTop: 10,
+    textAlign: 'center',
+    fontWeight: 'bold',
+    letterSpacing: "0.2em",
+    fontSize: 20
+  },
+  move: {
+    margin: 2
+  },
+  key: {
+    fontWeight: 'bold',
+    fontSize: 16
+  }
 })
 
 export default function PokemonDetail () {
@@ -23,8 +50,8 @@ export default function PokemonDetail () {
   const { loading, error, data } = useQuery(GET_DETAIL, {
     variables: { input: name }
   })
-  const [localState, setLocalState] = useState('')
-  const history = useHistory()
+  const [openModalGet, setOpenModalGet] = useState(false)
+  const [openModalFailGet, setOpenModalFailGet] = useState(false)
 
   useEffect(() => {
 
@@ -40,11 +67,11 @@ export default function PokemonDetail () {
   }
 
   const getPokemon = () => {
-
+    setOpenModalGet(true)
   }
   
   const missedPokemon = () => {
-
+    setOpenModalFailGet(true)
   }
 
   if (loading){
@@ -54,25 +81,67 @@ export default function PokemonDetail () {
   }
   return (
     <Container maxWidth="md">
-      <p>{name}</p>
-      {/* <p>{JSON.stringify(data)}</p> */}
-      <Card>
+      <Card className={classes.container}>
+        <Grid container spacing={2} direction="row">
+          <Grid item xs={12} sm={12} md={4} lg={4} xl={4} spacing={0} justify="center" alignItems="center">
+            <CardMedia
+              className={classes.media}
+              image={data.pokemon.sprites.front_default}
+              title={data.pokemon.name}
+            />
+            </Grid>
+            <Grid item xs={12} sm={12} md={8} lg={8} xl={8} spacing={0}>
+              <Typography className={classes.pokemonName}>
+                {data.pokemon.name.toUpperCase()}
+              </Typography>
+              <Typography className={classes.key}>
+                Weight: {data.pokemon.weight}
+              </Typography>
+              <Typography className={classes.key}>
+                Height: {data.pokemon.height}
+              </Typography>
+              <Typography className={classes.key}>
+                Types:
+              </Typography>
+              {
+                data.pokemon.types.map(el => (
+                  <Typography>{el.type.name}</Typography>
+                ))
+              }
+              <Typography className={classes.key}>
+                Abilities:
+              </Typography>
+              {
+                data.pokemon.abilities.map(el => (
+                  <Chip
+                    variant="outlined"
+                    size="medium"
+                    label={el.ability.name}
+                    className={classes.move}
+                  />
+                ))
+              }
+              <Typography className={classes.key}>
+                Moves:
+              </Typography>
+              <div className={classes.movesContainer}>
+                {
+                  data.pokemon.moves.map(el => (
+                    <Chip
+                      variant="outlined"
+                      size="small"
+                      label={el.move.name}
+                      className={classes.move}
+                    />
+                  ))
+                }
+              </div>
+            </Grid>
+          </Grid>
+        </Card>
+      <ModalGetPokemon open={openModalGet} pokemon={data.pokemon}/>
+      <ModalFailedGet open={openModalFailGet} pokemon={data.pokemon}/>
 
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={data.pokemon.sprites.front_default}
-          title={data.pokemon.name}
-        />
-        <CardContent>
-          {/* <CardActions> */}
-
-          <Typography>
-            {data.pokemon.name.toUpperCase()}
-          </Typography>
-        </CardContent>
-        </CardActionArea>
-      </Card>
     </Container>
   )
 }
