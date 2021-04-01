@@ -29,18 +29,30 @@ export default function PokemonList () {
   const history = useHistory();
   const [openModal, setOpenModal] = useState(false);
   const { loading, error, data } = useQuery(GET_POKEMONS)
-
+  const [myPokemon, setMyPokemon] = useState([])
   useEffect(() => {
-    
+    if (localStorage.getItem('myPokemon')) {
+      let arrMyPokemon = JSON.parse(localStorage.getItem('myPokemon'))
+      setMyPokemon(arrMyPokemon)
+    }
   }, [data])
 
-  const handleClickOpen = () => {
-    setOpenModal(true);
-  };
+  // const handleClickOpen = () => {
+  //   setOpenModal(true);
+  // };
 
-  const handleClose = () => {
-    setOpenModal(false);
-  };
+  // const handleClose = () => {
+  //   setOpenModal(false);
+  // };
+
+  const ownedPokemon = (pokemonName) => {
+    if (myPokemon.length > 0) {
+      let selectedPokemonCount = myPokemon.filter((el) => el.name === pokemonName).length
+      return selectedPokemonCount
+    } else {
+      return 0
+    }
+  }
 
   if (loading){
     return <Preload />
@@ -58,11 +70,11 @@ export default function PokemonList () {
         <></>
       </div>
 
-      <Grid container spacing={2} direction="row">
+      <Grid container spacing={2} direction="row" justify="center" alignItems="center">
         {
           data.pokemons.results.map(datum => (
-            <Grid item xs={12} sm={4} md={3} lg={2} xl={2} spacing={0}>
-              <PokemonCard key={datum.id} datum={datum} />
+            <Grid item key={datum.id} xs={12} sm={4} md={3} lg={2} xl={2} justifyContent="center">
+              <PokemonCard key={datum.id} datum={datum} ownedPokemon={()=> ownedPokemon(datum.name)} />
             </Grid>
             ))
         }

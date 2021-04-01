@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useQuery } from "@apollo/client";
 import { GET_DETAIL } from '../graph/index'
 import Preload from '../components/Preload'
+import PokemonType from '../components/PokemonType'
 import ModalFailedGet from '../components/ModalFailedGet'
 import ModalGetPokemon from '../components/ModalGetPokemon'
 import Chip from '@material-ui/core/Chip'
@@ -52,10 +53,18 @@ export default function PokemonDetail () {
   })
   const [openModalGet, setOpenModalGet] = useState(false)
   const [openModalFailGet, setOpenModalFailGet] = useState(false)
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 
   useEffect(() => {
-
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+      console.log(windowWidth)
+    }
+    window.addEventListener("resize", handleResize)
+    handleResize()
+    // return () => window.removeEventListener("resize", handleResize);
   }, [])
+
 
   const onCatch = () => {
     const gacha = Math.ceil(Math.random())
@@ -95,17 +104,17 @@ export default function PokemonDetail () {
                 {data.pokemon.name.toUpperCase()}
               </Typography>
               <Typography className={classes.key}>
-                Weight: {data.pokemon.weight}
+                Weight: {(data.pokemon.weight * 0.1).toFixed(2)} kg
               </Typography>
               <Typography className={classes.key}>
-                Height: {data.pokemon.height}
+                Height: {(data.pokemon.height * 0.1).toFixed(2)} m
               </Typography>
               <Typography className={classes.key}>
                 Types:
               </Typography>
               {
                 data.pokemon.types.map(el => (
-                  <Typography>{el.type.name}</Typography>
+                  <PokemonType type={el.type.name} />
                 ))
               }
               <Typography className={classes.key}>

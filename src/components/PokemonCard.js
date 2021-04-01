@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Color from 'color';
 import { makeStyles } from '@material-ui/core/styles';
 import {Card, CardActionArea, CardActions, CardContent, CardMedia, Chip } from '@material-ui/core';
@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     borderRadius: 16,
     // width: 100%,
     // objectFit: "contain",
-    marginRight: 0,
+    margin: 'auto',
     shadow:'10',
     '&:hover': {
       transform: "scale(1.05)",
@@ -39,6 +39,11 @@ const useStyles = makeStyles({
     letterSpacing: "0.1em",
     // color: 'rgb(3, 172, 14)',
     color: '#d8f3dc'
+  },
+  subtext: {
+    textAlign: 'center',
+    color: '#d8f3dc',
+    fontSize: 10
   }
 });
 
@@ -46,20 +51,13 @@ export default function PokemonCard (props) {
   const history = useHistory()
   let datum = props.datum
   const classes = useStyles()
+  const [ownedPokemon, setOwnedPokemon] = useState(props.ownedPokemon)
   // const [open, setOpen] = React.useState(false);
+  // const pokemonId = datum
 
-  // const handleClick = () => {
-  //   setOpen(true);
-  //   // nanti dipakai untuk bookmarknya
-  // };
-
-  // const handleClose = (event, reason) => {
-  //   if (reason === 'clickaway') {
-  //     return;
-  //   }
-  //   setOpen(false);
-  // };
-  const pokemonId = datum
+  useEffect (() => {
+    // setOwnedPokemon(props.ownedPokemon)
+  }, [])
   function goToDetail() {
     history.push(`/detail/${datum.name}`)
   }
@@ -82,6 +80,9 @@ export default function PokemonCard (props) {
           #{datum.id} 
           </span>&nbsp;
           {datum.name.toUpperCase()}
+        </Typography>
+        <Typography className={classes.subtext}>
+          Owned: {ownedPokemon}
         </Typography>
       </CardContent>
       </CardActionArea>
