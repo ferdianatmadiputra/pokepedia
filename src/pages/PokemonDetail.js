@@ -8,7 +8,7 @@ import PokemonType from '../components/PokemonType'
 import ModalFailedGet from '../components/ModalFailedGet'
 import ModalGetPokemon from '../components/ModalGetPokemon'
 import Chip from '@material-ui/core/Chip'
-import { Grid, Typography, Button, Container} from '@material-ui/core'
+import { Grid, Typography, Button, Container, Fab} from '@material-ui/core'
 import {Card, CardActionArea, CardActions, CardContent, CardMedia } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -20,10 +20,12 @@ const useStyles = makeStyles({
     // padding: 'auto'
   },
   container: {
-    backgroundImage: 'linear-gradient(#95d5b2, #2d6a4f)',
+    // backgroundImage: 'linear-gradient(#95d5b2, #2d6a4f)',
+    backgroundColor: 'transparent',
+    // backgroundImage: "linear-gradient(rgba(149, 213, 178, 0.2), rgba(45, 106, 79, 0.3))",
     display: 'flex',
     padding: 10,
-    color: "#000000"
+    color: "#184e77"
   },
   details: {
     display: 'flex',
@@ -31,6 +33,7 @@ const useStyles = makeStyles({
   },
   pokemonName: {
     paddingTop: 10,
+    paddingBottom: 10,
     textAlign: 'center',
     fontWeight: 'bold',
     letterSpacing: "0.2em",
@@ -39,9 +42,27 @@ const useStyles = makeStyles({
   move: {
     margin: 2
   },
+  abilities: {
+    margin: 2,
+    color: '#184e77',
+    fontWeight: 'bold',
+    letterSpacing: "0.2em",
+  },
   key: {
     fontWeight: 'bold',
     fontSize: 16
+  },
+  catchContainer: {
+    position: 'fixed',
+    bottom: 10,
+    textAlign: 'center',
+    margin: 'auto',
+    left: 0,
+    right: 0
+  },
+  catchButton: {
+    color: '#ffffff',
+    backgroundImage: "linear-gradient(to bottom, #52b69a, #1a759f)",
   }
 })
 
@@ -67,7 +88,7 @@ export default function PokemonDetail () {
 
 
   const onCatch = () => {
-    const gacha = Math.ceil(Math.random())
+    const gacha = Math.round(Math.random())
     if (gacha ===  0) {
       missedPokemon()
     } else {
@@ -78,11 +99,16 @@ export default function PokemonDetail () {
   const getPokemon = () => {
     setOpenModalGet(true)
   }
-  
+
   const missedPokemon = () => {
     setOpenModalFailGet(true)
   }
-
+  const closeModalFail = () => {
+    setOpenModalFailGet(false)
+  }
+  const closeModalGet = () => {
+    setOpenModalGet(false)
+  }
   if (loading){
     return <Preload />
   } else if (error) {
@@ -114,7 +140,9 @@ export default function PokemonDetail () {
               </Typography>
               {
                 data.pokemon.types.map(el => (
-                  <PokemonType type={el.type.name} />
+                  <div>
+                    <PokemonType type={el.type.name} />
+                  </div>
                 ))
               }
               <Typography className={classes.key}>
@@ -122,12 +150,14 @@ export default function PokemonDetail () {
               </Typography>
               {
                 data.pokemon.abilities.map(el => (
-                  <Chip
-                    variant="outlined"
-                    size="medium"
-                    label={el.ability.name}
-                    className={classes.move}
-                  />
+                  <div>
+                    <Chip
+                      variant="outlined"
+                      size="medium"
+                      label={el.ability.name.toUpperCase()}
+                      className={classes.abilities}
+                      />
+                  </div>
                 ))
               }
               <Typography className={classes.key}>
@@ -137,7 +167,6 @@ export default function PokemonDetail () {
                 {
                   data.pokemon.moves.map(el => (
                     <Chip
-                      variant="outlined"
                       size="small"
                       label={el.move.name}
                       className={classes.move}
@@ -148,9 +177,13 @@ export default function PokemonDetail () {
             </Grid>
           </Grid>
         </Card>
-      <ModalGetPokemon open={openModalGet} pokemon={data.pokemon}/>
-      <ModalFailedGet open={openModalFailGet} pokemon={data.pokemon}/>
-
+      <ModalGetPokemon open={openModalGet} handleClose={closeModalGet} pokemon={data.pokemon}/>
+      <ModalFailedGet open={openModalFailGet} handleClose={closeModalFail} pokemon={data.pokemon}/>
+      <div className={classes.catchContainer}>
+        <Fab variant='extended' onClick={onCatch} className={classes.catchButton}>
+          Catch {data.pokemon.name}
+        </Fab>
+      </div>
     </Container>
   )
 }

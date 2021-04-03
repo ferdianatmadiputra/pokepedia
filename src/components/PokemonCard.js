@@ -8,10 +8,12 @@ import { useHistory } from 'react-router';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 300,
+    maxWidth: 500,
     flexWrap: 'nowrap',
     // backgroundColor: "linear-gradient(#95d5b2, #DA4453)",
-    backgroundImage: "linear-gradient(#95d5b2, #2d6a4f)",
+    backgroundColor: 'transparent',
+    backgroundImage: "linear-gradient(rgba(149, 213, 178, 0.5), rgba(45, 106, 79, 0.5))",
+    
     borderRadius: 16,
     // width: 100%,
     // objectFit: "contain",
@@ -29,7 +31,9 @@ const useStyles = makeStyles({
 
   },
   media: {
-    height: 200,
+    // height: 200,
+    minHeight: 200,
+    maxHeight: 500
     // width: 200,
     // padding: 'auto'
   },
@@ -38,12 +42,12 @@ const useStyles = makeStyles({
     textAlign: 'center',
     letterSpacing: "0.1em",
     // color: 'rgb(3, 172, 14)',
-    color: '#d8f3dc'
+    color: '#184e77'
   },
   subtext: {
     textAlign: 'center',
-    color: '#d8f3dc',
-    fontSize: 10
+    color: '#184e77',
+    fontSize: 12
   }
 });
 

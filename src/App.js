@@ -6,7 +6,6 @@ import { createMuiTheme, makeStyles } from '@material-ui/core/styles'
 import { ThemeProvider } from "@material-ui/styles";
 import { Switch, Route } from "react-router-dom";
 import Navbar from './components/Navbar'
-import ScrollTop from './components/ScrollTop'
 import { Paper } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Preload from './components/Preload';
@@ -25,8 +24,11 @@ const darkTheme = createMuiTheme({
 });
 const useStyles = makeStyles({
   bg: {
-    backgroundColor: "#d8f3dc",
-    // backgroundImage: "linear-gradient(#b7e4c7, #95d5b2)",
+    // backgroundImage: "linear-gradient(#ffffff, #ffffff, #ffffff, #ffffff, #ffffff, #52b69a, #168aad)",
+    backgroundImage: "linear-gradient(#168aad,#52b69a, #ffffff, #ffffff, #ffffff, #ffffff, #ffffff )",
+    backgroundRepeat: 'no-repeat',
+    backgroundAttachment: 'fixed',
+    // backgroundColor: "#d8f3dc",
     color: '#2d6a4f'
   }
 })
@@ -37,7 +39,7 @@ function App() {
   return (
     <>
     <CssBaseline />
-      <ThemeProvider theme={darkTheme}>
+      {/* <ThemeProvider theme={darkTheme}> */}
         <Paper width={1} className={classes.bg} style={{minHeight: '100vh'}}>
           <Navbar />
             <Switch>
@@ -46,9 +48,8 @@ function App() {
               <Route path="/preload" component={Preload} />
               <Route path="/" component={PokemonList} />
             </Switch>
-            <ScrollTop />
         </Paper>
-      </ThemeProvider>
+      {/* </ThemeProvider> */}
     </>
   );
 }

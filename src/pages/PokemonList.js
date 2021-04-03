@@ -7,20 +7,25 @@ import { makeStyles } from '@material-ui/core/styles';
 import PokemonCard from '../components/PokemonCard'
 import Preload from '../components/Preload'
 import AddBoxIcon from '@material-ui/icons/AddBox'
+import ScrollTop from '../components/ScrollTop'
 
 const useStyles = makeStyles(() => ({
   header: {
-    display: 'flex',
-    flexWrap: 'no-wrap',
-    justifyContent: 'space-between',
-    overflow: 'hidden',
+    // display: 'flex',
+    // flexWrap: 'no-wrap',
+    // justifyContent: 'space-between',
+    // overflow: 'hidden',
     paddingTop: 30,
     paddingBottom: 30
   },
   titleText: {
-    color: '#40916c',
+    color: '#184e77',
     // fontFamily: 'PokemonGb',
-
+  },
+  totalOwned: {
+    color: '#184e77',
+    fontSize: 16
+    // fontFamily: 'PokemonGb',
   },
 }));
 
@@ -62,15 +67,18 @@ export default function PokemonList () {
   return (
     <Container maxWidth="lg">
       <div className={classes.header}>
-        <Typography variant="h5" className={classes.titleText} component="h2">
-          <b>
-          Pokemon List
-          </b>
-        </Typography>
+        <>
+          <Typography variant="h4" className={classes.titleText} component="h4">
+            <b>
+            Pokemon List
+            </b>
+          </Typography>
+          <Typography className={classes.totalOwned}>Total Owned: {myPokemon.length}</Typography>
+        </>
         <></>
       </div>
 
-      <Grid container spacing={2} direction="row" justify="center" alignItems="center">
+      <Grid container spacing={2} direction="row" alignItems="center">
         {
           data.pokemons.results.map(datum => (
             <Grid item key={datum.id} xs={12} sm={4} md={3} lg={2} xl={2} justifyContent="center">
@@ -79,7 +87,7 @@ export default function PokemonList () {
             ))
         }
       </Grid>
-
+      <ScrollTop />
     </Container>
   )
 }

@@ -29,6 +29,7 @@ export const GET_DETAIL = gql`
       height
       sprites {
         front_default
+        back_default
       }
       types {
         type {

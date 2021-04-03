@@ -49,7 +49,7 @@ const useStyles = makeStyles({
     fontSize: 12,
     textAlign: 'center',
     // color: 'rgb(3, 172, 14)',
-    color: '#d8f3dc'
+    color: '#d8f3dc',
   }
 });
 

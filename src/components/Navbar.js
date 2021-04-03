@@ -26,7 +26,8 @@ const useStyles = makeStyles((theme) => ({
   header: {
     // color: "rgb(3, 172, 14)",
     color: '#d8f3dc',
-    backgroundImage: "linear-gradient(to right, #40916c, #2d6a4f)",
+    // backgroundImage: "linear-gradient(to right, #40916c, #2d6a4f)",
+    backgroundImage: "linear-gradient(to bottom, #52b69a, #1a759f)",
 
     // backgroundColor: "#2d6a4f",
     // backgroundColor: "#150C0Cad"
@@ -85,7 +86,7 @@ export default function HideAppBar(props) {
           <Typography variant="h6" className={classes.title}>
             <NavLink to="/"
                 className={classes.navItem}
-                activeStyle={{color: '#95d5b2'}}
+                activeStyle={{color: '#d8f3dc'}}
               >
                 {/* <TheatersIcon /> */}
                 <img
@@ -99,9 +100,9 @@ export default function HideAppBar(props) {
           </Typography>
 
           <Button color="inherit">
-            <NavLink to="/fav"
+            <NavLink to="/mypokemon"
               className={classes.navItem}
-              activeStyle={{color: '#95d5b2'}}
+              activeStyle={{color: '#d8f3dc'}}
             >
               <span className={classes.font}>
                 Your<br />Pokemon
