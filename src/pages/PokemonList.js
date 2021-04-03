@@ -42,14 +42,6 @@ export default function PokemonList () {
     }
   }, [data])
 
-  // const handleClickOpen = () => {
-  //   setOpenModal(true);
-  // };
-
-  // const handleClose = () => {
-  //   setOpenModal(false);
-  // };
-
   const ownedPokemon = (pokemonName) => {
     if (myPokemon.length > 0) {
       let selectedPokemonCount = myPokemon.filter((el) => el.name === pokemonName).length

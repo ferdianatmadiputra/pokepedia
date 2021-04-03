@@ -10,6 +10,7 @@ import ModalGetPokemon from '../components/ModalGetPokemon'
 import Chip from '@material-ui/core/Chip'
 import { Grid, Typography, Button, Container, Fab} from '@material-ui/core'
 import {Card, CardActionArea, CardActions, CardContent, CardMedia } from '@material-ui/core';
+import PokeLoading from '../images/pokeloading.gif'
 
 const useStyles = makeStyles({
   media: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles({
     // backgroundImage: "linear-gradient(rgba(149, 213, 178, 0.2), rgba(45, 106, 79, 0.3))",
     display: 'flex',
     padding: 10,
-    color: "#184e77"
+    color: "#184e77",
   },
   details: {
     display: 'flex',
@@ -37,7 +38,7 @@ const useStyles = makeStyles({
     textAlign: 'center',
     fontWeight: 'bold',
     letterSpacing: "0.2em",
-    fontSize: 20
+    fontSize: 27
   },
   move: {
     margin: 2
@@ -63,6 +64,19 @@ const useStyles = makeStyles({
   catchButton: {
     color: '#ffffff',
     backgroundImage: "linear-gradient(to bottom, #52b69a, #1a759f)",
+  },
+  sticky: {
+    position: 'sticky',
+    position: '-webkit-sticky',
+    top: 20,
+    zIndex: 100
+  },
+  hr: {
+    height: "1px",
+    width: "90%",
+    borderWidth: 0,
+    color: "#184e77",
+    backgroundColor: "#184e77",
   }
 })
 
@@ -73,27 +87,26 @@ export default function PokemonDetail () {
     variables: { input: name }
   })
   const [openModalGet, setOpenModalGet] = useState(false)
+  const [disableCatch, setDisableCatch] = useState(false)
   const [openModalFailGet, setOpenModalFailGet] = useState(false)
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
-
+  const [catchLabel, setCatchLabel] = useState(`Catch ${name}`)
   useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth)
-      console.log(windowWidth)
-    }
-    window.addEventListener("resize", handleResize)
-    handleResize()
-    // return () => window.removeEventListener("resize", handleResize);
   }, [])
 
 
   const onCatch = () => {
-    const gacha = Math.round(Math.random())
-    if (gacha ===  0) {
-      missedPokemon()
-    } else {
-      getPokemon()
-    }
+    setDisableCatch(true)
+    setCatchLabel(<img src={PokeLoading} alt="catchloading" width="50" />)
+    setTimeout(() => {
+      const gacha = Math.round(Math.random())
+      if (gacha ===  0) {
+        missedPokemon()
+      } else {
+        getPokemon()
+      }
+      setCatchLabel(`Catch ${data.pokemon.name}`)
+      setDisableCatch(false)
+    }, 3000);
   }
 
   const getPokemon = () => {
@@ -118,6 +131,12 @@ export default function PokemonDetail () {
     <Container maxWidth="md">
       <Card className={classes.container}>
         <Grid container spacing={2} direction="row">
+          <Grid item xs={12} alignItems="center" justify="center">
+            <Typography className={classes.pokemonName}>
+              {data.pokemon.name.toUpperCase()}
+            </Typography>
+            <hr className={classes.hr}/>
+          </Grid>
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4} spacing={0} justify="center" alignItems="center">
             <CardMedia
               className={classes.media}
@@ -126,62 +145,76 @@ export default function PokemonDetail () {
             />
             </Grid>
             <Grid item xs={12} sm={12} md={8} lg={8} xl={8} spacing={0}>
-              <Typography className={classes.pokemonName}>
-                {data.pokemon.name.toUpperCase()}
-              </Typography>
-              <Typography className={classes.key}>
-                Weight: {(data.pokemon.weight * 0.1).toFixed(2)} kg
-              </Typography>
-              <Typography className={classes.key}>
-                Height: {(data.pokemon.height * 0.1).toFixed(2)} m
-              </Typography>
-              <Typography className={classes.key}>
-                Types:
-              </Typography>
-              {
-                data.pokemon.types.map(el => (
-                  <div>
-                    <PokemonType type={el.type.name} />
+              <Grid container spacing={2} direction="row">
+                <Grid item xs={12} sm={6}>
+                  <Typography className={classes.key}>
+                    Weight: {(data.pokemon.weight * 0.1).toFixed(1)} kg
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography className={classes.key}>
+                    Height: {(data.pokemon.height * 0.1).toFixed(1)} m
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid container spacing={2} direction="row">
+                <Grid item xs={12} sm={6}>
+                  <Typography className={classes.key}>
+                    Types:
+                  </Typography>
+                  {
+                    data.pokemon.types.map(el => (
+                      <PokemonType type={el.type.name} />
+                    ))
+                  }
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Typography className={classes.key}>
+                    Abilities:
+                  </Typography>
+                  {
+                    data.pokemon.abilities.map(el => (
+                        <Chip
+                          variant="outlined"
+                          size="medium"
+                          color="primary"
+                          label={el.ability.name.toUpperCase()}
+                          className={classes.abilities}
+                          />
+                    ))
+                  }
+                </Grid>
+              </Grid>
+
+              <Grid container spacing={2} direction="row">
+                <Grid item xs={12}>
+                  <Typography className={classes.key}>
+                    Moves:
+                  </Typography>
+                  <div className={classes.movesContainer}>
+                    {
+                      data.pokemon.moves.map(el => (
+                        <Chip
+                        size="small"
+                        label={el.move.name}
+                        className={classes.move}
+                        color="primary"
+                        variant="outlined"
+                        />
+                        ))
+                      }
                   </div>
-                ))
-              }
-              <Typography className={classes.key}>
-                Abilities:
-              </Typography>
-              {
-                data.pokemon.abilities.map(el => (
-                  <div>
-                    <Chip
-                      variant="outlined"
-                      size="medium"
-                      label={el.ability.name.toUpperCase()}
-                      className={classes.abilities}
-                      />
-                  </div>
-                ))
-              }
-              <Typography className={classes.key}>
-                Moves:
-              </Typography>
-              <div className={classes.movesContainer}>
-                {
-                  data.pokemon.moves.map(el => (
-                    <Chip
-                      size="small"
-                      label={el.move.name}
-                      className={classes.move}
-                    />
-                  ))
-                }
-              </div>
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Card>
       <ModalGetPokemon open={openModalGet} handleClose={closeModalGet} pokemon={data.pokemon}/>
       <ModalFailedGet open={openModalFailGet} handleClose={closeModalFail} pokemon={data.pokemon}/>
       <div className={classes.catchContainer}>
-        <Fab variant='extended' onClick={onCatch} className={classes.catchButton}>
-          Catch {data.pokemon.name}
+        <Fab disabled={disableCatch} variant='extended' onClick={onCatch} className={classes.catchButton}>
+          {/* Catch {data.pokemon.name} */}
+          {catchLabel}
         </Fab>
       </div>
     </Container>

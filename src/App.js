@@ -10,14 +10,13 @@ import { Paper } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Preload from './components/Preload';
 
-const darkTheme = createMuiTheme({
+const defaultTheme = createMuiTheme({
   palette: {
-    type: 'dark',
     primary: {
-      main: '#2d6a4f',
+      main: '#184e77',
     },
     secondary: {
-      main: "#2d6a4f",
+      main: "#184e77",
     },
 
   },
@@ -29,7 +28,7 @@ const useStyles = makeStyles({
     backgroundRepeat: 'no-repeat',
     backgroundAttachment: 'fixed',
     // backgroundColor: "#d8f3dc",
-    color: '#2d6a4f'
+    color: '#184e77'
   }
 })
 
@@ -39,7 +38,7 @@ function App() {
   return (
     <>
     <CssBaseline />
-      {/* <ThemeProvider theme={darkTheme}> */}
+      <ThemeProvider theme={defaultTheme}>
         <Paper width={1} className={classes.bg} style={{minHeight: '100vh'}}>
           <Navbar />
             <Switch>
@@ -49,7 +48,7 @@ function App() {
               <Route path="/" component={PokemonList} />
             </Switch>
         </Paper>
-      {/* </ThemeProvider> */}
+      </ThemeProvider>
     </>
   );
 }

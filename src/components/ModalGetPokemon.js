@@ -3,8 +3,16 @@ import TextField from '@material-ui/core/TextField'
 import { printIntrospectionSchema } from "graphql";
 import { useEffect, useState } from "react";
 import PokeLoading from '../images/pokeloading.gif'
+import { makeStyles } from '@material-ui/core/styles'
+
+const useStyles = makeStyles(() => ({
+  dialogContainer: {
+    textAlign: 'center'
+  }
+}))
 
 export default function ModalGetPokemon (props) {
+  const classes = useStyles()
   const [newNickname, setNewNickname] = useState('')
   const [openError, setOpenError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -17,6 +25,9 @@ export default function ModalGetPokemon (props) {
     if (newNickname.length <= 0) {
       setErrorMessage('Pokemon nickname cannot be empty')
       setOpenError(true)
+    } else if (newNickname.length > 10) {
+      setErrorMessage('Nickname cannot more than 10 characters')
+      setOpenError(true)
     } else {
       let myPokemon = JSON.parse(localStorage.getItem('myPokemon')) || []
       if (myPokemon.length > 0 && myPokemon.find(el => el.nickname === newNickname)) {
@@ -28,7 +39,7 @@ export default function ModalGetPokemon (props) {
           ...props.pokemon
         })
         localStorage.setItem('myPokemon', JSON.stringify(myPokemon))
-        props.handleClose()
+        onCloseModal()
       }
     }
   }
@@ -45,14 +56,20 @@ export default function ModalGetPokemon (props) {
 
   return (
     <>
-    <Dialog open={props.open} onClose={onCloseModal}>
+    <Dialog
+      open={props.open}
+      onClose={onCloseModal}
+      fullWidth={true}
+    >
     <DialogTitle id="form-dialog-title">GOTCHA!</DialogTitle>
         <DialogContent>
-          <img src={PokeLoading} alt="pokeloading" width="100" />
-          <DialogContentText>
-            <b>{props.pokemon.name}
-            </b> was caught!
-          </DialogContentText>
+          <div className={classes.dialogContainer}>
+            <img src={props.pokemon.sprites.front_default} alt="pokeloading" width="130" />
+            <DialogContentText>
+              <b>{props.pokemon.name}
+              </b> was caught!
+            </DialogContentText>
+          </div>
 
           <TextField
             autoFocus
