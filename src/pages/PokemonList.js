@@ -8,6 +8,8 @@ import PokemonCard from '../components/PokemonCard'
 import Preload from '../components/Preload'
 import AddBoxIcon from '@material-ui/icons/AddBox'
 import ScrollTop from '../components/ScrollTop'
+import LazyLoad from 'react-lazyload'
+import PokeLoading from '../images/pokeloading.gif'
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -73,9 +75,13 @@ export default function PokemonList () {
       <Grid container spacing={2} direction="row" alignItems="center">
         {
           data.pokemons.results.map(datum => (
-            <Grid item key={datum.id} xs={12} sm={4} md={3} lg={2} xl={2} justifyContent="center">
-              <PokemonCard key={datum.id} datum={datum} ownedPokemon={()=> ownedPokemon(datum.name)} />
-            </Grid>
+            <Grid item key={datum.id} xs={12} sm={4} md={3} lg={2} xl={2}>
+              <LazyLoad key={datum.id} placeholder={
+               <img src={PokeLoading} alt="pokeloading" key={datum.id} width="100" />
+              }>
+                <PokemonCard key={datum.id} datum={datum} ownedPokemon={()=> ownedPokemon(datum.name)} />
+              </LazyLoad>
+              </Grid>
             ))
         }
       </Grid>

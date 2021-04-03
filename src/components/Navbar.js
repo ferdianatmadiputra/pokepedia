@@ -26,18 +26,16 @@ const useStyles = makeStyles((theme) => ({
   header: {
     // color: "rgb(3, 172, 14)",
     color: '#d8f3dc',
-    // backgroundImage: "linear-gradient(to right, #40916c, #2d6a4f)",
-    backgroundImage: "linear-gradient(to bottom, #52b69a, #1a759f)",
-
-    // backgroundColor: "#2d6a4f",
-    // backgroundColor: "#150C0Cad"
+    backgroundImage: "linear-gradient(to bottom, #1a9e9e, #1a759f)",
+    // backgroundImage: "linear-gradient(to bottom, #52b69a, #1a759f)",
   },
   navItem: {
     textDecoration: 'none',
     color: 'inherit',
     display: 'flex',
     alignItems: 'center',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    color: '#ffffff'
   },
   font: {
     fontSize: 12,
@@ -86,7 +84,7 @@ export default function HideAppBar(props) {
           <Typography variant="h6" className={classes.title}>
             <NavLink to="/"
                 className={classes.navItem}
-                activeStyle={{color: '#d8f3dc'}}
+                // activeStyle={{color: '#ffffff'}}
               >
                 {/* <TheatersIcon /> */}
                 <img
@@ -102,7 +100,7 @@ export default function HideAppBar(props) {
           <Button color="inherit">
             <NavLink to="/mypokemon"
               className={classes.navItem}
-              activeStyle={{color: '#d8f3dc'}}
+              activeStyle={{color: '#a3c2c2'}}
             >
               <span className={classes.font}>
                 Your<br />Pokemon

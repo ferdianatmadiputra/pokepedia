@@ -6,14 +6,20 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(() => ({
   dialogContainer: {
     textAlign: 'center'
+  },
+  dialogStyle: {
+    color: '#184e77',
   }
 }))
 
 export default function ModalFailedGet (props) {
   const [localState, setLocalState] = useState('')
   const classes = useStyles()
-  useEffect(() => {
-  }, [])
+
+  const handleImageError =(e) => {
+    e.target.onerror = null
+    e.target.src = props.pokemon.sprites.front_default
+  }
 
   return (
     <>
@@ -22,11 +28,20 @@ export default function ModalFailedGet (props) {
       onClose={props.handleClose}
       fullWidth={true}
     >
-    <DialogTitle>Failed Catch</DialogTitle>
+    <DialogTitle  className={classes.dialogStyle}>Failed...</DialogTitle>
         <DialogContent>
           <div className={classes.dialogContainer}>
-            <img src={props.pokemon.sprites.back_default} alt="pokeloading" width="130" />
-            <DialogContentText>
+            <img 
+              src={
+                props.pokemon.sprites.back_default
+                ? props.pokemon.sprites.back_default
+                : props.pokemon.sprites.front_default
+              }
+              alt="pokeloading"
+              width="130"
+              onError={handleImageError}
+            />
+            <DialogContentText className={classes.dialogStyle}>
               Oh no! The wild {props.pokemon.name} fled.
             </DialogContentText>
           </div>

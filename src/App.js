@@ -8,7 +8,7 @@ import { Switch, Route } from "react-router-dom";
 import Navbar from './components/Navbar'
 import { Paper } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Preload from './components/Preload';
+// import Preload from './components/Preload';
 
 const defaultTheme = createMuiTheme({
   palette: {
@@ -23,11 +23,10 @@ const defaultTheme = createMuiTheme({
 });
 const useStyles = makeStyles({
   bg: {
-    // backgroundImage: "linear-gradient(#ffffff, #ffffff, #ffffff, #ffffff, #ffffff, #52b69a, #168aad)",
-    backgroundImage: "linear-gradient(#168aad,#52b69a, #ffffff, #ffffff, #ffffff, #ffffff, #ffffff )",
+    // backgroundImage: "linear-gradient(#168aad, #52b69a, #ffffff, #ffffff, #ffffff, #ffffff )",#bbe8f6
+    backgroundImage: "linear-gradient(#168aad, #a5d9cb, #ffffff, #ffffff, #ffffff, #ffffff, #ffffff)",
     backgroundRepeat: 'no-repeat',
     backgroundAttachment: 'fixed',
-    // backgroundColor: "#d8f3dc",
     color: '#184e77'
   }
 })
@@ -44,7 +43,7 @@ function App() {
             <Switch>
               <Route path="/mypokemon" component={MyPokemonList} />
               <Route path="/detail/:name" component={PokemonDetail} />
-              <Route path="/preload" component={Preload} />
+              {/* <Route path="/preload" component={Preload} /> */}
               <Route path="/" component={PokemonList} />
             </Switch>
         </Paper>

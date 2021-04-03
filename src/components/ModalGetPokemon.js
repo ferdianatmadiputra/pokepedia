@@ -1,6 +1,5 @@
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField'
-import { printIntrospectionSchema } from "graphql";
 import { useEffect, useState } from "react";
 import PokeLoading from '../images/pokeloading.gif'
 import { makeStyles } from '@material-ui/core/styles'
@@ -8,6 +7,9 @@ import { makeStyles } from '@material-ui/core/styles'
 const useStyles = makeStyles(() => ({
   dialogContainer: {
     textAlign: 'center'
+  },
+  dialogStyle: {
+    color: '#184e77'
   }
 }))
 
@@ -21,7 +23,8 @@ export default function ModalGetPokemon (props) {
 
   }, [])
 
-  const onSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault()
     if (newNickname.length <= 0) {
       setErrorMessage('Pokemon nickname cannot be empty')
       setOpenError(true)
@@ -40,6 +43,8 @@ export default function ModalGetPokemon (props) {
         })
         localStorage.setItem('myPokemon', JSON.stringify(myPokemon))
         onCloseModal()
+        props.setSnackbarMessage(`${newNickname} (${props.pokemon.name}) is in the bag!`)
+        props.setOpenSnackbar(true)
       }
     }
   }
@@ -60,24 +65,31 @@ export default function ModalGetPokemon (props) {
       open={props.open}
       onClose={onCloseModal}
       fullWidth={true}
+      // PaperProps={{
+      //   style: {
+      //     color: '#184e77'
+
+      //   }
+      // }}
     >
-    <DialogTitle id="form-dialog-title">GOTCHA!</DialogTitle>
+    <DialogTitle className={classes.dialogStyle} id="form-dialog-title">GOTCHA!</DialogTitle>
+        <form onSubmit={handleSubmit}>
         <DialogContent>
           <div className={classes.dialogContainer}>
             <img src={props.pokemon.sprites.front_default} alt="pokeloading" width="130" />
-            <DialogContentText>
+            <DialogContentText className={classes.dialogStyle}>
               <b>{props.pokemon.name}
               </b> was caught!
             </DialogContentText>
           </div>
 
           <TextField
-            autoFocus
+            autoFocus={true}
             margin="dense"
             id="nickname"
             label="Give it a nickname to keep"
-            type="email"
-            fullWidth
+            type="text"
+            fullWidth={true}
             autoComplete="off"
             defaultValue={newNickname}
             onChange={onChangeNickname}
@@ -90,10 +102,11 @@ export default function ModalGetPokemon (props) {
           <Button onClick={onCloseModal} color="primary">
             Cancel
           </Button>
-          <Button onClick={onSubmit} color="primary">
+          <Button type="submit" color="primary">
             SAVE
           </Button>
         </DialogActions>
+        </form>
     </Dialog>
     </>
   )

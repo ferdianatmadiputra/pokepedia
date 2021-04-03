@@ -11,6 +11,7 @@ import Chip from '@material-ui/core/Chip'
 import { Grid, Typography, Button, Container, Fab} from '@material-ui/core'
 import {Card, CardActionArea, CardActions, CardContent, CardMedia } from '@material-ui/core';
 import PokeLoading from '../images/pokeloading.gif'
+import NotifSnackbar from '../components/NotifSnackbar'
 
 const useStyles = makeStyles({
   media: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles({
     backgroundColor: 'transparent',
     // backgroundImage: "linear-gradient(rgba(149, 213, 178, 0.2), rgba(45, 106, 79, 0.3))",
     display: 'flex',
-    padding: 10,
+    padding: '3em 1em 5em 1em',
     color: "#184e77",
   },
   details: {
@@ -87,13 +88,23 @@ export default function PokemonDetail () {
     variables: { input: name }
   })
   const [openModalGet, setOpenModalGet] = useState(false)
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState('')
   const [disableCatch, setDisableCatch] = useState(false)
   const [openModalFailGet, setOpenModalFailGet] = useState(false)
   const [catchLabel, setCatchLabel] = useState(`Catch ${name}`)
+  const [isFrontImageShow, setIsFrontImageShow] = useState(true)
+  
   useEffect(() => {
-  }, [])
+    imageInterval()
+  }, [isFrontImageShow])
 
 
+  const imageInterval = () => {
+    setTimeout(() => {
+      setIsFrontImageShow(!isFrontImageShow)
+    }, 4000);
+  }
   const onCatch = () => {
     setDisableCatch(true)
     setCatchLabel(<img src={PokeLoading} alt="catchloading" width="50" />)
@@ -112,7 +123,6 @@ export default function PokemonDetail () {
   const getPokemon = () => {
     setOpenModalGet(true)
   }
-
   const missedPokemon = () => {
     setOpenModalFailGet(true)
   }
@@ -122,6 +132,13 @@ export default function PokemonDetail () {
   const closeModalGet = () => {
     setOpenModalGet(false)
   }
+  const handleImageError =(e) => {
+    if (e.target.src !== data.pokemon.sprites.front_default) {
+      e.target.onerror = null
+      e.target.src = data.pokemon.sprites.front_default
+    }
+  }
+
   if (loading){
     return <Preload />
   } else if (error) {
@@ -131,20 +148,32 @@ export default function PokemonDetail () {
     <Container maxWidth="md">
       <Card className={classes.container}>
         <Grid container spacing={2} direction="row">
-          <Grid item xs={12} alignItems="center" justify="center">
+          <Grid item xs={12}>
             <Typography className={classes.pokemonName}>
               {data.pokemon.name.toUpperCase()}
             </Typography>
             <hr className={classes.hr}/>
           </Grid>
-          <Grid item xs={12} sm={12} md={4} lg={4} xl={4} spacing={0} justify="center" alignItems="center">
-            <CardMedia
-              className={classes.media}
-              image={data.pokemon.sprites.front_default}
-              title={data.pokemon.name}
-            />
+          <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
+            { isFrontImageShow
+              ? <CardMedia
+                  className={classes.media}
+                  image={data.pokemon.sprites.front_default}
+                  title={data.pokemon.name}
+                />
+              :  <CardMedia
+                  className={classes.media}
+                  image={
+                    data.pokemon.sprites.back_default
+                    ? data.pokemon.sprites.back_default
+                    : data.pokemon.sprites.front_default}
+                  title={data.pokemon.name}
+                />
+            }
+            {/* <img src={data.pokemon.sprites.front_default} alt="pokeloading" width="270" /> */}
+
             </Grid>
-            <Grid item xs={12} sm={12} md={8} lg={8} xl={8} spacing={0}>
+            <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
               <Grid container spacing={2} direction="row">
                 <Grid item xs={12} sm={6}>
                   <Typography className={classes.key}>
@@ -164,7 +193,7 @@ export default function PokemonDetail () {
                   </Typography>
                   {
                     data.pokemon.types.map(el => (
-                      <PokemonType type={el.type.name} />
+                      <PokemonType type={el.type.name} key={el.type.name}/>
                     ))
                   }
                 </Grid>
@@ -180,6 +209,7 @@ export default function PokemonDetail () {
                           color="primary"
                           label={el.ability.name.toUpperCase()}
                           className={classes.abilities}
+                          key={el.ability.name}
                           />
                     ))
                   }
@@ -200,6 +230,7 @@ export default function PokemonDetail () {
                         className={classes.move}
                         color="primary"
                         variant="outlined"
+                        key={el.move.name}
                         />
                         ))
                       }
@@ -209,7 +240,8 @@ export default function PokemonDetail () {
             </Grid>
           </Grid>
         </Card>
-      <ModalGetPokemon open={openModalGet} handleClose={closeModalGet} pokemon={data.pokemon}/>
+      <ModalGetPokemon open={openModalGet} handleClose={closeModalGet} pokemon={data.pokemon}
+      setOpenSnackbar={setOpenSnackbar}  setSnackbarMessage={setSnackbarMessage}/>
       <ModalFailedGet open={openModalFailGet} handleClose={closeModalFail} pokemon={data.pokemon}/>
       <div className={classes.catchContainer}>
         <Fab disabled={disableCatch} variant='extended' onClick={onCatch} className={classes.catchButton}>
@@ -217,6 +249,7 @@ export default function PokemonDetail () {
           {catchLabel}
         </Fab>
       </div>
+      <NotifSnackbar open={openSnackbar} setOpenSnackbar={setOpenSnackbar} message={snackbarMessage} />
     </Container>
   )
 }

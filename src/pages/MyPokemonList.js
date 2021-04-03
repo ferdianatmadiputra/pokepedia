@@ -1,13 +1,13 @@
-import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
-import { Grid, Typography, Button, Container } from '@material-ui/core'
+import { Grid, Typography, Box, Container } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
-import { GET_POKEMONS } from '../graph/index'
 import { makeStyles } from '@material-ui/core/styles';
 import MyPokemonCard from '../components/MyPokemonCard'
 import Preload from '../components/Preload'
 import ScrollTop from '../components/ScrollTop'
-
+import ModalRelease from "../components/ModalRelease";
+import NotifSnackbar from '../components/NotifSnackbar'
+import PokeballCatched from '../images/pokeballcatched.gif'
 const useStyles = makeStyles(() => ({
   header: {
     // display: 'flex',
@@ -31,10 +31,13 @@ const useStyles = makeStyles(() => ({
 export default function PokemonList () {
   const classes = useStyles();
   const history = useHistory();
-  const [openModal, setOpenModal] = useState(false);
+  const [openModalRelease, setOpenModalRelease] = useState(false);
+  const [pokemonToRelease, setPokemonToRelease] = useState({});
   const [loading, setLoading] = useState(false)
   const [myPokemon, setMyPokemon] = useState([])
-  
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState('')
+
   useEffect(() => {
     setLoading(true)
     if (localStorage.getItem('myPokemon')) {
@@ -44,10 +47,19 @@ export default function PokemonList () {
     setLoading(false)
   }, [])
 
-  const onRelease = (nickname) => {
-    let newList = myPokemon.filter((el) => el.nickname !== nickname)
+  const onTryRelease = (pokemonToRelease) => {
+    setPokemonToRelease(pokemonToRelease)
+    setOpenModalRelease(true)
+  }
+
+  const onConfirmRelease = (pokemonNickname) => {
+    let newList = myPokemon.filter((el) => el.nickname !== pokemonNickname)
     localStorage.setItem('myPokemon', JSON.stringify(newList))
     setMyPokemon(newList)
+    setOpenModalRelease(false)
+    setSnackbarMessage(`${pokemonToRelease.nickname} (${pokemonToRelease.name}) is free now`)
+    setOpenSnackbar(true)
+    setPokemonToRelease({})
   }
 
   if (loading){
@@ -62,9 +74,25 @@ export default function PokemonList () {
               Your Pokemons
               </b>
             </Typography>
-            <Typography className={classes.totalOwned}>Still empty, go catch'em all!</Typography>
           </>
-          <></>
+          <Grid
+            container
+            spacing={0}
+            direction="column"
+            alignItems="center"
+            justify="center"
+            style={{ minHeight: '80vh' }}
+          >
+            <img src={PokeballCatched} alt="pokeballCatched" width="100" />
+            <Typography variant="h5">
+              <Box textAlign="center">
+                Still empty... Go Catch'em all!
+              </Box>
+            </Typography>
+          </Grid>
+        </div>
+        <div>
+
         </div>
       </Container>
     )
@@ -75,7 +103,7 @@ export default function PokemonList () {
         <>
           <Typography variant="h4" className={classes.titleText} component="h4">
             <b>
-              Your Pokemons
+              Your Pokemon
             </b>
           </Typography>
           <Typography className={classes.totalOwned}>Total Owned: {myPokemon.length}</Typography>
@@ -87,12 +115,19 @@ export default function PokemonList () {
         {
           myPokemon.map(datum => (
             <Grid item key={datum.id} xs={12} sm={4} md={3} lg={2} xl={2} justifyContent="center">
-              <MyPokemonCard key={datum.id} datum={datum} onRelease={onRelease}/>
+              <MyPokemonCard key={datum.id} datum={datum} onTryRelease={onTryRelease}/>
             </Grid>
             ))
         }
       </Grid>
       <ScrollTop />
+      <ModalRelease
+        open={openModalRelease}
+        setOpenModalRelease={setOpenModalRelease}
+        pokemonToRelease={pokemonToRelease}
+        onConfirm={onConfirmRelease}
+      />
+      <NotifSnackbar open={openSnackbar} setOpenSnackbar={setOpenSnackbar} message={snackbarMessage} />
     </Container>
   )
 }

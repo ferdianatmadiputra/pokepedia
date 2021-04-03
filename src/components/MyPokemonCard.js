@@ -5,6 +5,7 @@ import {Grid, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, B
 import Typography from '@material-ui/core/Typography';
 import { useHistory } from 'react-router';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles({
   root: {
@@ -12,8 +13,8 @@ const useStyles = makeStyles({
     flexWrap: 'nowrap',
     // backgroundColor: "linear-gradient(#95d5b2, #DA4453)",
     backgroundColor: 'transparent',
-    backgroundImage: "linear-gradient(rgba(149, 213, 178, 0.5), rgba(45, 106, 79, 0.5))",
-    
+    // backgroundImage: "linear-gradient(rgba(149, 213, 178, 0.5), rgba(45, 106, 79, 0.5))",
+    backgroundImage: "linear-gradient(rgba(26, 158, 158, 0), rgba(82, 82, 154, 0.1))",
     borderRadius: 16,
     // width: 100%,
     // objectFit: "contain",
@@ -23,7 +24,7 @@ const useStyles = makeStyles({
       transform: "scale(1.05)",
       transitionDuration: 300,
       zIndex: 100,
-      boxShadow: `0 6px 12px 0 ${Color('#2d6a4f')
+      boxShadow: `0 6px 12px 0 ${Color('#1a9e9e')
         .rotate(-12)
         .darken(0.2)
         .fade(0.5)}`
@@ -31,10 +32,17 @@ const useStyles = makeStyles({
   },
   releaseButton: {
     position: 'absolute',
-    top: 3,
-    right: 3,
-    borderRadius: "5em",
-    color: '#184e77'
+    top: 10,
+    right: 10,
+    borderRadius: "6em",
+    fontSize: 5,
+    // color: '#496e79',
+    color: '#94b8b8',
+    '&:hover': {
+      color: '#184e77',
+      transform: "scale(1.05)",
+      transitionDuration: 300,
+    }
   },
   media: {
     // height: 200,
@@ -73,7 +81,7 @@ export default function PokemonCard (props) {
   }
   const releasePokemon = () => {
     // console.log('release')
-    props.onRelease(datum.nickname)
+    props.onTryRelease(datum)
   }
 
   return (
@@ -83,26 +91,16 @@ export default function PokemonCard (props) {
       {/* <Chip className={classes.releaseButton} onClick={releasePokemon}>
         <LockOpenIcon/>
       </Chip> */}
-      <Button variant="outlined"
-        size="small"
-        className={classes.releaseButton}
-        onClick={releasePokemon}
-      >
-        <LockOpenIcon/>
-      </Button>
-      {/* <div variant="outlined"
-        className={classes.releaseButton}
-        onClick={releasePokemon}
-      >
-        <LockOpenIcon/>
-      </div> */}
-      {/* <Chip
-        className={classes.releaseButton}
-        avatar={<LockOpenIcon />}
-        label="Open"
-        onClick={releasePokemon}
+      <Button
         variant="outlined"
-      /> */}
+        size="small"
+        // color="primary"
+        className={classes.releaseButton}
+        onClick={releasePokemon}
+      >
+        {/* <LockOpenIcon/> */}
+        <ExitToAppIcon />
+      </Button>
       <CardMedia
         className={classes.media}
         image={datum.sprites.front_default}

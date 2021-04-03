@@ -1,4 +1,5 @@
-import { CircularProgress, Grid, Typography } from '@material-ui/core'
+import { Grid, Typography } from '@material-ui/core'
+import { CircularProgress } from '@material-ui/core'
 import PokeLoading from '../images/pokeloading.gif'
 export default function Preload () {
   return (
@@ -10,9 +11,9 @@ export default function Preload () {
       justify="center"
       style={{ minHeight: '80vh' }}
     >
-      <img src={PokeLoading} alt="pokeloading" width="100" />
-      {/* <CircularProgress size={50} /> */}
-      <Typography variant="h4">Loading...</Typography>
+      {/* <img src={PokeLoading} alt="pokeloading" width="100" /> */}
+      <CircularProgress size={40} />
+      <Typography variant="h5" style={{padding: 20}}>Loading...</Typography>
     </Grid>
   )
 }

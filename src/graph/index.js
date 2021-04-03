@@ -3,7 +3,7 @@ import { gql } from "@apollo/client"
 export const GET_POKEMONS = gql`
   query {
     pokemons(
-      limit: 200
+      limit: 2000
       offset: 0
     ) {
       results {

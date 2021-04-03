@@ -10,9 +10,9 @@ const useStyles = makeStyles({
   root: {
     maxWidth: 500,
     flexWrap: 'nowrap',
-    // backgroundColor: "linear-gradient(#95d5b2, #DA4453)",
     backgroundColor: 'transparent',
-    backgroundImage: "linear-gradient(rgba(149, 213, 178, 0.5), rgba(45, 106, 79, 0.5))",
+    // backgroundImage: "linear-gradient(rgba(149, 213, 178, 0.2), rgba(45, 106, 79, 0.2))",
+    backgroundImage: "linear-gradient(rgba(26, 158, 158, 0), rgba(82, 82, 154, 0.1))",
     
     borderRadius: 16,
     // width: 100%,
@@ -23,7 +23,7 @@ const useStyles = makeStyles({
       transform: "scale(1.05)",
       transitionDuration: 300,
       zIndex: 100,
-      boxShadow: `0 6px 12px 0 ${Color('#2d6a4f')
+      boxShadow: `0 6px 12px 0 ${Color('#1a9e9e')
         .rotate(-12)
         .darken(0.2)
         .fade(0.5)}`

@@ -28,6 +28,7 @@ export default function PokemonType (props) {
         break;
       case 'electric':
         setChipStyle({...chipStyle, backgroundColor: '#f8d030'})
+        break;
       case 'flying':
         setChipStyle({...chipStyle, backgroundColor: '#a890f0'})
         break;
