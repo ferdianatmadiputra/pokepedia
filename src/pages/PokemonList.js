@@ -7,8 +7,7 @@ import PokemonCard from '../components/PokemonCard'
 import Preload from '../components/Preload'
 import ScrollTop from '../components/ScrollTop'
 import LazyLoad from 'react-lazyload'
-import PokeLoading from '../images/pokeloading.gif'
-import Pokeball from '../images/pokeball.png'
+import Skeleton from '@material-ui/lab/Skeleton'
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -71,9 +70,17 @@ export default function PokemonList () {
         {
           data.pokemons.results.map(datum => (
             <Grid item key={datum.id} xs={12} sm={4} md={3} lg={2} xl={2}>
-              <LazyLoad key={datum.id} placeholder={
-               <img src={Pokeball} alt="pokeball" key={datum.id} width="80" />
-              }>
+              <LazyLoad
+                key={datum.id}
+                height={200}
+                once
+                offset="823"
+                placeholder={
+                  <Skeleton variant="rect" width={200} height={200} />
+                  // <Skeleton><PokemonCard /></Skeleton>
+                  // <img src={Pokeball} alt="pokeball" key={datum.id} width="80" height="80" />
+                }
+              >
                 <PokemonCard key={datum.id} datum={datum} ownedPokemon={()=> ownedPokemon(datum.name)} />
               </LazyLoad>
             </Grid>
