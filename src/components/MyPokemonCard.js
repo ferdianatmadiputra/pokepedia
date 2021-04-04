@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     // backgroundColor: "linear-gradient(#95d5b2, #DA4453)",
     backgroundColor: 'transparent',
     // backgroundImage: "linear-gradient(rgba(149, 213, 178, 0.5), rgba(45, 106, 79, 0.5))",
-    backgroundImage: "linear-gradient(rgba(26, 158, 158, 0), rgba(82, 82, 154, 0.1))",
+    backgroundImage: "linear-gradient(rgba(26, 158, 158, 0.1), rgba(82, 82, 154, 0.1))",
     borderRadius: 16,
     margin: 'auto',
     shadow:'10',

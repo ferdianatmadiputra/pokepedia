@@ -9,7 +9,7 @@ export default function Preload () {
       direction="column"
       alignItems="center"
       justify="center"
-      style={{ minHeight: '80vh' }}
+      style={{ minHeight: '95vh' }}
     >
       {/* <img src={PokeLoading} alt="pokeloading" width="100" /> */}
       <CircularProgress size={40} />

@@ -12,6 +12,11 @@ const useStyles = makeStyles((theme) => ({
     right: theme.spacing(2),
     color: "#e83b42"
   },
+  fab: {
+    color: '#ffffff',
+    backgroundImage: "linear-gradient(to bottom, #52b69a, #1a759f)",
+  },
+
 }));
 
 export default function ScrollTop(props) {
@@ -28,7 +33,7 @@ export default function ScrollTop(props) {
   return (
     <Zoom in={trigger}>
       <div onClick={handleClick} role="presentation" className={classes.root}>
-        <Fab color="primary" size="small" aria-label="scroll back to top">
+        <Fab color="primary" size="small" aria-label="scroll back to top" className={classes.fab}>
           <KeyboardArrowUpIcon />
         </Fab>
       </div>

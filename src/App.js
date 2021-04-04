@@ -26,8 +26,10 @@ const useStyles = makeStyles({
     // backgroundImage: "linear-gradient(#168aad, #52b69a, #ffffff, #ffffff, #ffffff, #ffffff )",#bbe8f6
     backgroundImage: "linear-gradient(#168aad, #a5d9cb, #ffffff, #ffffff, #ffffff, #ffffff, #ffffff)",
     backgroundRepeat: 'no-repeat',
-    backgroundAttachment: 'fixed',
-    color: '#184e77'
+    // backgroundAttachment: 'fixed',
+    backgroundSize: '100vw 100vh',
+    color: '#184e77',
+    minHeight: '100vh'
   }
 })
 
@@ -38,7 +40,7 @@ function App() {
     <>
     <CssBaseline />
       <ThemeProvider theme={defaultTheme}>
-        <Paper width={1} className={classes.bg} style={{minHeight: '100vh'}}>
+        <Paper width={1} className={classes.bg}>
           <Navbar />
             <Switch>
               <Route path="/mypokemon" component={MyPokemonList} />
