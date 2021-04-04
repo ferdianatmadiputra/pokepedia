@@ -43,7 +43,6 @@ function App() {
             <Switch>
               <Route path="/mypokemon" component={MyPokemonList} />
               <Route path="/detail/:name" component={PokemonDetail} />
-              {/* <Route path="/preload" component={Preload} /> */}
               <Route path="/" component={PokemonList} />
             </Switch>
         </Paper>

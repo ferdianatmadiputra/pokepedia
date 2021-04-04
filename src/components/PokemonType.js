@@ -8,10 +8,7 @@ export default function PokemonType (props) {
     letterSpacing: "0.2em",
     fontWeight: 'bold'
   })
-  // let chipStyle = {
-  //   color: '#ffffff',
-  //   margin: 2
-  // }
+
   useEffect(() => {
     switch (props.type) {
       case 'water':
@@ -77,7 +74,6 @@ export default function PokemonType (props) {
   return (
     <>
     <Chip
-      // variant="outlined"
       size="medium"
       label={props.type.toUpperCase()}
       style={chipStyle}

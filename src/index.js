@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './fonts/PokemonGb.ttf'
-import './fonts/PokemonSolid.ttf'
-import './fonts/PokemonHollow.ttf'
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';

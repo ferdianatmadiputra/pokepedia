@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Grid, Typography, Box, Container } from '@material-ui/core'
-import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';
 import MyPokemonCard from '../components/MyPokemonCard'
 import Preload from '../components/Preload'
@@ -10,10 +9,6 @@ import NotifSnackbar from '../components/NotifSnackbar'
 import PokeballCatched from '../images/pokeballcatched.gif'
 const useStyles = makeStyles(() => ({
   header: {
-    // display: 'flex',
-    // flexWrap: 'no-wrap',
-    // justifyContent: 'space-between',
-    // overflow: 'hidden',
     paddingTop: 30,
     paddingBottom: 30
   },
@@ -30,7 +25,6 @@ const useStyles = makeStyles(() => ({
 
 export default function PokemonList () {
   const classes = useStyles();
-  const history = useHistory();
   const [openModalRelease, setOpenModalRelease] = useState(false);
   const [pokemonToRelease, setPokemonToRelease] = useState({});
   const [loading, setLoading] = useState(false)

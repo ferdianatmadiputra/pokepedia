@@ -1,6 +1,6 @@
 import { Grid, Typography } from '@material-ui/core'
 import { CircularProgress } from '@material-ui/core'
-import PokeLoading from '../images/pokeloading.gif'
+// import PokeLoading from '../images/pokeloading.gif'
 export default function Preload () {
   return (
     <Grid

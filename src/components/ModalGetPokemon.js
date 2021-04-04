@@ -1,7 +1,6 @@
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from "@material-ui/core";
 import TextField from '@material-ui/core/TextField'
-import { useEffect, useState } from "react";
-import PokeLoading from '../images/pokeloading.gif'
+import { useState } from "react";
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(() => ({
@@ -18,10 +17,6 @@ export default function ModalGetPokemon (props) {
   const [newNickname, setNewNickname] = useState('')
   const [openError, setOpenError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-
-  useEffect(() => {
-
-  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -73,7 +68,7 @@ export default function ModalGetPokemon (props) {
       // }}
     >
     <DialogTitle className={classes.dialogStyle} id="form-dialog-title">GOTCHA!</DialogTitle>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} noValidate={true}>
         <DialogContent>
           <div className={classes.dialogContainer}>
             <img src={props.pokemon.sprites.front_default} alt="pokeloading" width="130" />

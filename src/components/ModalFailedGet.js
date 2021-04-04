@@ -1,6 +1,5 @@
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from "@material-ui/core";
-import { useEffect, useState } from "react";
-import PokeLoading from '../images/pokeloading.gif'
+import React from "react";
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(() => ({
@@ -13,7 +12,6 @@ const useStyles = makeStyles(() => ({
 }))
 
 export default function ModalFailedGet (props) {
-  const [localState, setLocalState] = useState('')
   const classes = useStyles()
 
   const handleImageError =(e) => {

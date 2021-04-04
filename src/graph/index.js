@@ -47,8 +47,3 @@ export const GET_DETAIL = gql`
     }
   }
 `
-export const GET_FAVORITES = gql`
-  query getFavorites {
-    favorites @client
-  }
-`

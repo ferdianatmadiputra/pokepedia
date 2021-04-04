@@ -1,10 +1,8 @@
 import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Button } from "@material-ui/core";
-import TextField from '@material-ui/core/TextField'
-import { useEffect, useState } from "react";
+import React from "react";
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(() => ({
-
   dialogStyle: {
     color: '#184e77'
   }
@@ -12,10 +10,6 @@ const useStyles = makeStyles(() => ({
 
 export default function ModalRelease (props) {
   const classes = useStyles()
-
-  useEffect(() => {
-
-  }, [])
 
   const onSubmit = () => {
     props.onConfirm(props.pokemonToRelease.nickname)

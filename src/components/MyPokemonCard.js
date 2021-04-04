@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Color from 'color';
 import { makeStyles } from '@material-ui/core/styles';
-import {Grid, Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Button } from '@material-ui/core';
+import { Card, CardActionArea, CardContent, CardMedia, Button } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import { useHistory } from 'react-router';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles({
@@ -16,8 +15,6 @@ const useStyles = makeStyles({
     // backgroundImage: "linear-gradient(rgba(149, 213, 178, 0.5), rgba(45, 106, 79, 0.5))",
     backgroundImage: "linear-gradient(rgba(26, 158, 158, 0), rgba(82, 82, 154, 0.1))",
     borderRadius: 16,
-    // width: 100%,
-    // objectFit: "contain",
     margin: 'auto',
     shadow:'10',
     '&:hover': {
@@ -36,7 +33,6 @@ const useStyles = makeStyles({
     right: 10,
     borderRadius: "6em",
     fontSize: 5,
-    // color: '#496e79',
     color: '#94b8b8',
     '&:hover': {
       color: '#184e77',
@@ -45,11 +41,8 @@ const useStyles = makeStyles({
     }
   },
   media: {
-    // height: 200,
     minHeight: 200,
     maxHeight: 500
-    // width: 200,
-    // padding: 'auto'
   },
   text: {
     // fontFamily: 'PokemonGb',
@@ -69,18 +62,11 @@ export default function PokemonCard (props) {
   const history = useHistory()
   let datum = props.datum
   const classes = useStyles()
-  // const [open, setOpen] = React.useState(false);
-  // const pokemonId = datum
-
-  useEffect (() => {
-    // setOwnedPokemon(props.ownedPokemon)
-  }, [])
   
   const goToDetail = () => {
     history.push(`/detail/${datum.name}`)
   }
   const releasePokemon = () => {
-    // console.log('release')
     props.onTryRelease(datum)
   }
 
@@ -88,17 +74,12 @@ export default function PokemonCard (props) {
   <>
     <Card className={classes.root}>
     <CardActionArea>
-      {/* <Chip className={classes.releaseButton} onClick={releasePokemon}>
-        <LockOpenIcon/>
-      </Chip> */}
       <Button
         variant="outlined"
         size="small"
-        // color="primary"
         className={classes.releaseButton}
         onClick={releasePokemon}
       >
-        {/* <LockOpenIcon/> */}
         <ExitToAppIcon />
       </Button>
       <CardMedia
@@ -108,21 +89,12 @@ export default function PokemonCard (props) {
         onClick={goToDetail}
       />
       <CardContent  onClick={goToDetail}>
-        {/* <CardActions> */}
-        {/* <Chip size="small" label={datum.id} /> */}
-        {/* <Grid container>
-          <Grid item> */}
-            <Typography className={classes.text}>
-              {datum.nickname}
-            </Typography>
-            <Typography className={classes.subtext}>
-              {datum.name.toUpperCase()}
-            </Typography>
-          {/* </Grid>
-          <Grid item>
-            <LockOpenIcon />
-          </Grid>
-        </Grid> */}
+        <Typography className={classes.text}>
+          {datum.nickname}
+        </Typography>
+        <Typography className={classes.subtext}>
+          {datum.name.toUpperCase()}
+        </Typography>
       </CardContent>
       </CardActionArea>
     </Card>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router";
+import { useParams } from "react-router";
 import { makeStyles } from '@material-ui/core/styles';
 import { useQuery } from "@apollo/client";
 import { GET_DETAIL } from '../graph/index'
@@ -8,8 +8,8 @@ import PokemonType from '../components/PokemonType'
 import ModalFailedGet from '../components/ModalFailedGet'
 import ModalGetPokemon from '../components/ModalGetPokemon'
 import Chip from '@material-ui/core/Chip'
-import { Grid, Typography, Button, Container, Fab} from '@material-ui/core'
-import {Card, CardActionArea, CardActions, CardContent, CardMedia } from '@material-ui/core';
+import { Grid, Typography, Container, Fab} from '@material-ui/core'
+import {Card, CardMedia } from '@material-ui/core';
 import PokeLoading from '../images/pokeloading.gif'
 import NotifSnackbar from '../components/NotifSnackbar'
 
@@ -19,7 +19,6 @@ const useStyles = makeStyles({
     minWidth: 278,
     maxWidth: 360,
     margin: 'auto'
-    // padding: 'auto'
   },
   container: {
     // backgroundImage: 'linear-gradient(#95d5b2, #2d6a4f)',
@@ -99,11 +98,16 @@ export default function PokemonDetail () {
     imageInterval()
   }, [isFrontImageShow])
 
-
+  useEffect(() => {
+    return () => {
+      console.log("cleaned up");
+    };
+  }, []);
+  
   const imageInterval = () => {
     setTimeout(() => {
       setIsFrontImageShow(!isFrontImageShow)
-    }, 4000);
+    }, 3000);
   }
   const onCatch = () => {
     setDisableCatch(true)
@@ -132,12 +136,12 @@ export default function PokemonDetail () {
   const closeModalGet = () => {
     setOpenModalGet(false)
   }
-  const handleImageError =(e) => {
-    if (e.target.src !== data.pokemon.sprites.front_default) {
-      e.target.onerror = null
-      e.target.src = data.pokemon.sprites.front_default
-    }
-  }
+  // const handleImageError =(e) => {
+  //   if (e.target.src !== data.pokemon.sprites.front_default) {
+  //     e.target.onerror = null
+  //     e.target.src = data.pokemon.sprites.front_default
+  //   }
+  // }
 
   if (loading){
     return <Preload />
@@ -170,82 +174,79 @@ export default function PokemonDetail () {
                   title={data.pokemon.name}
                 />
             }
-            {/* <img src={data.pokemon.sprites.front_default} alt="pokeloading" width="270" /> */}
-
+          </Grid>
+          <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
+            <Grid container spacing={2} direction="row">
+              <Grid item xs={12} sm={6}>
+                <Typography className={classes.key}>
+                  Weight: {(data.pokemon.weight * 0.1).toFixed(1)} kg
+                </Typography>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography className={classes.key}>
+                  Height: {(data.pokemon.height * 0.1).toFixed(1)} m
+                </Typography>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={12} md={8} lg={8} xl={8}>
-              <Grid container spacing={2} direction="row">
-                <Grid item xs={12} sm={6}>
-                  <Typography className={classes.key}>
-                    Weight: {(data.pokemon.weight * 0.1).toFixed(1)} kg
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Typography className={classes.key}>
-                    Height: {(data.pokemon.height * 0.1).toFixed(1)} m
-                  </Typography>
-                </Grid>
+            <Grid container spacing={2} direction="row">
+              <Grid item xs={12} sm={6}>
+                <Typography className={classes.key}>
+                  Types:
+                </Typography>
+                {
+                  data.pokemon.types.map(el => (
+                    <PokemonType type={el.type.name} key={el.type.name}/>
+                  ))
+                }
               </Grid>
-              <Grid container spacing={2} direction="row">
-                <Grid item xs={12} sm={6}>
-                  <Typography className={classes.key}>
-                    Types:
-                  </Typography>
-                  {
-                    data.pokemon.types.map(el => (
-                      <PokemonType type={el.type.name} key={el.type.name}/>
-                    ))
-                  }
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Typography className={classes.key}>
-                    Abilities:
-                  </Typography>
-                  {
-                    data.pokemon.abilities.map(el => (
-                        <Chip
-                          variant="outlined"
-                          size="medium"
-                          color="primary"
-                          label={el.ability.name.toUpperCase()}
-                          className={classes.abilities}
-                          key={el.ability.name}
-                          />
-                    ))
-                  }
-                </Grid>
-              </Grid>
-
-              <Grid container spacing={2} direction="row">
-                <Grid item xs={12}>
-                  <Typography className={classes.key}>
-                    Moves:
-                  </Typography>
-                  <div className={classes.movesContainer}>
-                    {
-                      data.pokemon.moves.map(el => (
-                        <Chip
-                        size="small"
-                        label={el.move.name}
-                        className={classes.move}
-                        color="primary"
+              <Grid item xs={12} sm={6}>
+                <Typography className={classes.key}>
+                  Abilities:
+                </Typography>
+                {
+                  data.pokemon.abilities.map(el => (
+                      <Chip
                         variant="outlined"
-                        key={el.move.name}
+                        size="medium"
+                        color="primary"
+                        label={el.ability.name.toUpperCase()}
+                        className={classes.abilities}
+                        key={el.ability.name}
                         />
-                        ))
-                      }
-                  </div>
-                </Grid>
+                  ))
+                }
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={2} direction="row">
+              <Grid item xs={12}>
+                <Typography className={classes.key}>
+                  Moves:
+                </Typography>
+                <div className={classes.movesContainer}>
+                  {
+                    data.pokemon.moves.map(el => (
+                      <Chip
+                      size="small"
+                      label={el.move.name}
+                      className={classes.move}
+                      color="primary"
+                      variant="outlined"
+                      key={el.move.name}
+                      />
+                      ))
+                    }
+                </div>
               </Grid>
             </Grid>
           </Grid>
-        </Card>
+        </Grid>
+      </Card>
       <ModalGetPokemon open={openModalGet} handleClose={closeModalGet} pokemon={data.pokemon}
       setOpenSnackbar={setOpenSnackbar}  setSnackbarMessage={setSnackbarMessage}/>
       <ModalFailedGet open={openModalFailGet} handleClose={closeModalFail} pokemon={data.pokemon}/>
       <div className={classes.catchContainer}>
         <Fab disabled={disableCatch} variant='extended' onClick={onCatch} className={classes.catchButton}>
-          {/* Catch {data.pokemon.name} */}
           {catchLabel}
         </Fab>
       </div>

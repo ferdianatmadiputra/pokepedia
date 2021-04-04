@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Color from 'color';
 import { makeStyles } from '@material-ui/core/styles';
-import {Card, CardActionArea, CardActions, CardContent, CardMedia, Chip } from '@material-ui/core';
+import {Card, CardActionArea, CardContent, CardMedia } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
 import { useHistory } from 'react-router';
 
@@ -13,10 +13,7 @@ const useStyles = makeStyles({
     backgroundColor: 'transparent',
     // backgroundImage: "linear-gradient(rgba(149, 213, 178, 0.2), rgba(45, 106, 79, 0.2))",
     backgroundImage: "linear-gradient(rgba(26, 158, 158, 0), rgba(82, 82, 154, 0.1))",
-    
     borderRadius: 16,
-    // width: 100%,
-    // objectFit: "contain",
     margin: 'auto',
     shadow:'10',
     '&:hover': {
@@ -31,17 +28,13 @@ const useStyles = makeStyles({
 
   },
   media: {
-    // height: 200,
     minHeight: 200,
     maxHeight: 500
-    // width: 200,
-    // padding: 'auto'
   },
   text: {
     // fontFamily: 'PokemonGb',
     textAlign: 'center',
     letterSpacing: "0.1em",
-    // color: 'rgb(3, 172, 14)',
     color: '#184e77'
   },
   subtext: {
@@ -56,12 +49,7 @@ export default function PokemonCard (props) {
   let datum = props.datum
   const classes = useStyles()
   const [ownedPokemon, setOwnedPokemon] = useState(props.ownedPokemon)
-  // const [open, setOpen] = React.useState(false);
-  // const pokemonId = datum
 
-  useEffect (() => {
-    // setOwnedPokemon(props.ownedPokemon)
-  }, [])
   function goToDetail() {
     history.push(`/detail/${datum.name}`)
   }
@@ -69,26 +57,23 @@ export default function PokemonCard (props) {
   return (
   <>
     <Card className={classes.root} onClick={goToDetail}>
-
-    <CardActionArea>
-      <CardMedia
-        className={classes.media}
-        image={datum.image}
-        title={datum.name}
-      />
-      <CardContent>
-        {/* <CardActions> */}
-        {/* <Chip size="small" label={datum.id} /> */}
-        <Typography className={classes.text}>
-          <span>
-          #{datum.id} 
-          </span>&nbsp;
-          {datum.name.toUpperCase()}
-        </Typography>
-        <Typography className={classes.subtext}>
-          Owned: {ownedPokemon}
-        </Typography>
-      </CardContent>
+      <CardActionArea>
+        <CardMedia
+          className={classes.media}
+          image={datum.image}
+          title={datum.name}
+        />
+        <CardContent>
+          <Typography className={classes.text}>
+            <span>
+            #{datum.id} 
+            </span>&nbsp;
+            {datum.name.toUpperCase()}
+          </Typography>
+          <Typography className={classes.subtext}>
+            Owned: {ownedPokemon}
+          </Typography>
+        </CardContent>
       </CardActionArea>
     </Card>
   </>
