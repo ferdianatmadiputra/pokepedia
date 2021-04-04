@@ -4,4 +4,4 @@ Deploy link: https://pokepedia-ferd.web.app
 
 ## Tech Stack
 
-React, Apollo Client, Material-UI
+React, Apollo Client, Material-UI, react router, react lazyload
